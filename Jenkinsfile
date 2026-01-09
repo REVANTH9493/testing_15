@@ -56,13 +56,17 @@ pipeline {
                 expression { params.ENVIRONMENT != 'dev' }
             }
             steps {
-                sh '''
+                sh """
                 echo "Deploying to ${params.ENVIRONMENT}"
-                echo "Deployment started" > deploy.log
+                echo "Deployment log:" > deploy.log
                 date >> deploy.log
-                '''
+                echo "Environment: ${params.ENVIRONMENT}" >> deploy.log
+                echo "Version: ${params.VERSION}" >> deploy.log
+                cat deploy.log
+                """
             }
         }
+
     }
 
     post {
