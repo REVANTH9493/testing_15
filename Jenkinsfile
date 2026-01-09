@@ -36,17 +36,20 @@ pipeline {
 
         stage('Package') {
             steps {
-                sh '''
+                sh """
                 test -f calculator.jar
                 mkdir -p package
+        
                 echo "version: ${params.VERSION}" > version.txt
                 echo "build: ${BUILD_NUMBER}" >> version.txt
                 echo "environment: ${params.ENVIRONMENT}" >> version.txt
+        
                 cp calculator.jar version.txt Dockerfile package/
                 ls -la package/
-                '''
+                """
             }
         }
+
 
         stage('Deploy') {
             when {
