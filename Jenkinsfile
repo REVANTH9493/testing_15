@@ -2,7 +2,7 @@
 pipeline {
 agent any
 tools {
-jdk 'jdk21'
+jdk 'jdk11'
 }
 parameters {
 string(name: 'VERSION', defaultValue: '1.0.0', description: 'Application version')
