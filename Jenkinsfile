@@ -81,15 +81,20 @@ cat deploy.log
 }
 }
 post {
-always {
-echo "=== Build Complete ==="
-echo "Job: ${JOB_NAME}"
-echo "Build: ${BUILD_NUMBER}"
-echo "Version: ${params.VERSION}"
-echo "Environment: ${params.ENVIRONMENT}"
-archiveArtifacts artifacts: 'package/**', fingerprint: true
-archiveArtifacts artifacts: '*.log', fingerprint: true
-}
+    always {
+        node {
+            
+            echo "=== Build Complete ==="
+        echo "Job: ${JOB_NAME}"
+        echo "Build: ${BUILD_NUMBER}"
+        echo "Version: ${params.VERSION}"
+        echo "Environment: ${params.ENVIRONMENT}"
+        archiveArtifacts artifacts: 'package/**', fingerprint: true
+        archiveArtifacts artifacts: '*.log', fingerprint: true
+            archiveArtifacts artifacts: '**/*.txt', fingerprint: true
+        }
+    }
+
 success {
 echo "􀀀 DevOps workflow completed successfully!"
 // In real scenario, send success notification
