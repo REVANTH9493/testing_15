@@ -1,31 +1,25 @@
 #!/bin/bash
-# scripts/build.sh
+set -e
+
 echo "=== DevOps Calculator Build ==="
-echo "Build Number: ${BUILD_NUMBER:-local}"
-echo ""
-# Compile
+echo "Build Number: ${BUILD_NUMBER}"
+
+# Create output directory
+mkdir -p target/classes
+
 echo "Compiling source files..."
-find src -name "*.java" > sources.txt
-javac @sources.txt
-if [ $? -eq 0 ]; then
-    echo "􀀀 Compilation successful"
-else
-    echo "􀀀 Compilation failed"
-    exit 1
-fi
-# Run tests
-echo ""
+javac -d target/classes \
+  src/main/java/com/devops/Calculator.java \
+  src/test/java/com/devops/CalculatorTest.java
+
+echo "Compilation successful"
+
 echo "Running tests..."
-java -cp src/main/java:src/test/java com.devops.CalculatorTest
-if [ $? -eq 0 ]; then
-    echo "􀀀 All tests passed"
-else
-    echo "􀀀 Tests failed"
-    exit 1
-fi
-# Create JAR
-echo ""
-echo "Creating JAR file..."
-jar cfe calculator.jar com.devops.Calculator -C src/main/java .
-echo "􀀀 Build completed successfully"
-echo "JAR file: calculator.jar"
+java -cp target/classes com.devops.CalculatorTest
+
+echo "All tests passed"
+
+echo "Creating JAR..."
+jar cf calculator.jar -C target/classes .
+
+echo "Build completed successfully"
