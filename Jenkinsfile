@@ -28,25 +28,11 @@ pipeline {
         }
 
         stage('Test') {
-            parallel {
-                stage('Unit Tests') {
-                    steps {
-                        sh '''
-                        echo "Running unit tests..."
-                        java -cp src/main/java:src/test/java com.devops.CalculatorTest
-                        '''
-                    }
-                }
-                stage('Integration Tests') {
-                    steps {
-                        sh '''
-                        echo "Running integration tests..."
-                        java -cp src/main/java com.devops.Calculator || true
-                        '''
-                    }
-                }
+            steps {
+                echo 'Tests already executed during build'
             }
         }
+
 
         stage('Package') {
             steps {
